@@ -16,7 +16,7 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.18.0') {
             stage('Test') {
                 steps {
                     sh 'go test ./... -coverprofile=coverage.txt'
-                    sh "curl -s https://codecov.io/bash | bash -s -"
+                    //sh "curl -s https://codecov.io/bash | bash -s -"
                 }
             }
             stage('Code Analysis') {
