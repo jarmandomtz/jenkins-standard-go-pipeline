@@ -1,28 +1,41 @@
-def call(String... args) {
-  pipeline {
-    agent any //all agents
-    tools {
-        //go 'go-1.22.4' //Installed latest version 
-        go 'go-1.12' //Installed latest version 
-    }
-    parameters {
-        string (name: 'GO_TOOL_NAME', defaultValue: 'go', description: 'Go lang tool name')
-        string (name: 'GOLANG_CI_VERSION', defaultValue: 'v1.18.0', description: 'Go lang ci version')
-    }
-    environment {
-        GO111MODULE = 'on' //Env variable required to be set to on
-    }
-    stages {
-        stage('Build') {
-            steps {
-                sh '$GO_TOOL_NAME build' //Running go command defined previously
+def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.18.0') {
+    pipeline {
+        agent any
+        tools {
+            go "$goToolName"
+        }
+        environment {
+            GO111MODULE = 'on'
+        }
+        stages {
+            stage('Compile') {
+                steps {
+                    sh 'go build'
+                }
+            }
+            stage('Test') {
+                steps {
+                    sh 'go test ./... -coverprofile=coverage.txt'
+                    sh "curl -s https://codecov.io/bash | bash -s -"
+                }
+            }
+            stage('Code Analysis') {
+                steps {
+                    sh "curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin $golangCiVersion"
+                    sh 'golangci-lint run'
+                }
+            }
+            stage('Release') {
+                when {
+                    buildingTag()
+                }
+                environment {
+                    GITHUB_TOKEN = credentials('GITHUB_TOKEN')
+                }
+                steps {
+                    sh 'curl -sL https://git.io/goreleaser | bash'
+                }
             }
         }
-        stage('Hello') {
-            steps {
-                sh 'echo "Hello with version $GOLANG_CI_VERSION'
-            }
-        }
     }
-  }
 }
