@@ -48,7 +48,8 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                     GITHUB_TOKEN = credentials('GITHUB_TOKEN')
                 }
                 steps {
-                    sh 'curl -sL https://git.io/goreleaser | bash'
+                    //sh 'curl -sL https://git.io/goreleaser --snapshot or --skip=validate| bash'
+                    sh 'curl -sL https://git.io/goreleaser --skip=validate| bash'
                 }
             }
         }
