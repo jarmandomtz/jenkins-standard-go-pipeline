@@ -7,7 +7,7 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
         environment {
             GO111MODULE = 'on'
             GOPATH = '/usr/local/go'
-            TAG_VERSION = 'v1.0.${env.BUILD_NUMBER}'
+            TAG_VERSION = "v1.0.${env.BUILD_NUMBER}"
         }
         stages {
             stage('Compile') {
