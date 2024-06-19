@@ -25,6 +25,8 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                     sh 'curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b $(go env GOPATH)/bin $golangCiVersion'
                     sh 'golangci-lint run'
 
+                    //sh 'git tag $TAG_VERSION'
+                    sh 'echo "BUILD_NUMBER: ${env.BUILD_NUMBER}"'
                     sh 'echo "git describe --tags"'
                     sh 'git describe --tags'
                 }
