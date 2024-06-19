@@ -6,6 +6,7 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.18.0') {
         }
         environment {
             GO111MODULE = 'on'
+            GOPATH = '$HOME/go'
         }
         stages {
             stage('Compile') {
