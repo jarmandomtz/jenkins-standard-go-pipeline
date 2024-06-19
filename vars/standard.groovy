@@ -26,7 +26,7 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                     sh 'golangci-lint run'
 
                     //sh 'git tag $TAG_VERSION'
-                    sh 'echo "BUILD_NUMBER: ${env.BUILD_NUMBER}"'
+                    sh 'echo "BUILD_NUMBER: $BUILD_NUMBER"'
                     sh 'echo "git describe --tags"'
                     sh 'git describe --tags'
                 }
