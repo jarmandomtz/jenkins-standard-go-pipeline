@@ -7,6 +7,7 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
         environment {
             GO111MODULE = 'on'
             GOPATH = '/usr/local/go'
+            TAG_VERSION = 'v1.0.$BUILD_NUMBER'
         }
         stages {
             stage('Compile') {
@@ -24,9 +25,8 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                 steps {
                     sh 'curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b $(go env GOPATH)/bin $golangCiVersion'
                     sh 'golangci-lint run'
-
-                    //sh 'git tag $TAG_VERSION'
-                    sh 'echo "BUILD_NUMBER: $BUILD_NUMBER"'
+                    //sh 'echo "BUILD_NUMBER: $BUILD_NUMBER"'
+                    sh 'git tag $TAG_VERSION'
                     sh 'echo "git describe --tags"'
                     sh 'git describe --tags'
                 }
