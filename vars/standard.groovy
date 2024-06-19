@@ -27,6 +27,8 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                 }
             }
             stage('Release') {
+                sh 'echo "git describe --tags"'
+                sh 'git describe --tags'
                 when {
                     buildingTag()
                 }
