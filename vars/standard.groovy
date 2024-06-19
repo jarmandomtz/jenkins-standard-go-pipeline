@@ -1,4 +1,4 @@
-def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.18.0') {
+def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
     pipeline {
         agent any
         tools {
@@ -22,7 +22,8 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.18.0') {
             }
             stage('Code Analysis') {
                 steps {
-                    sh "curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin $golangCiVersion"
+                  //sh "curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin $golangCiVersion"
+                    sh "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin $golangCiVersion
                     sh 'golangci-lint run'
                 }
             }
