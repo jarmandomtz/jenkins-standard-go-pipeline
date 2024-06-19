@@ -34,6 +34,7 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                                 #git commit -m "register work"
                                 #git push
                                 echo "Hello world!"
+                                git push origin $TAG_VERSION
                         '''
                     }
                     sh 'echo "git describe --tags"'
