@@ -26,8 +26,8 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                     sh 'curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b $(go env GOPATH)/bin $golangCiVersion'
                     sh 'golangci-lint run'
                     //sh 'echo "BUILD_NUMBER: $BUILD_NUMBER"'
-                    sh 'git tag $TAG_VERSION'
-                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'test')]) {
+                    sh 'git tag $TAG_VERSION' //GITHUB_TOKEN_UP
+                     withCredentials([gitUsernamePassword(credentialsId: 'GITHUB_TOKEN_UP'), gitToolName: 'Default']) {
                         sh '''
                                 # modify some files
                                 #git add .
