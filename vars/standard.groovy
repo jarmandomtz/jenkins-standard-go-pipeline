@@ -24,11 +24,12 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                 steps {
                     sh 'curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b $(go env GOPATH)/bin $golangCiVersion'
                     sh 'golangci-lint run'
+
+                    sh 'echo "git describe --tags"'
+                    sh 'git describe --tags'
                 }
             }
             stage('Release') {
-                sh 'echo "git describe --tags"'
-                sh 'git describe --tags'
                 when {
                     buildingTag()
                 }
