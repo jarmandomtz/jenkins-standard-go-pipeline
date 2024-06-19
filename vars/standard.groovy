@@ -27,6 +27,15 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                     sh 'golangci-lint run'
                     //sh 'echo "BUILD_NUMBER: $BUILD_NUMBER"'
                     sh 'git tag $TAG_VERSION'
+                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'test')]) {
+                        sh '''
+                                # modify some files
+                                #git add .
+                                #git commit -m "register work"
+                                #git push
+                                echo "Hello world!"
+                        '''
+        }
                     sh 'echo "git describe --tags"'
                     sh 'git describe --tags'
                 }
