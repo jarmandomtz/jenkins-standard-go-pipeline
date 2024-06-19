@@ -25,15 +25,12 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                 steps {
                     sh 'curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b $(go env GOPATH)/bin $golangCiVersion'
                     sh 'golangci-lint run'
-                    //sh 'echo "BUILD_NUMBER: $BUILD_NUMBER"'
-                    sh 'git tag $TAG_NAME' //GITHUB_TOKEN_UP
                     withCredentials([gitUsernamePassword(credentialsId: 'GITHUB_TOKEN_UP', gitToolName: 'Default')]) {
                         sh '''
-                                # modify some files
                                 #git add .
                                 #git commit -m "register work"
                                 #git push
-                                echo "Hello world!"
+                                git tag $TAG_NAME
                                 git push origin $TAG_NAME
                                 git describe --tags
                         '''
@@ -49,8 +46,8 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                 }
                 steps {
                     //sh 'curl -sL https://git.io/goreleaser --snapshot or --skip=validate| bash'
-                    //sh 'curl -sL https://git.io/goreleaser release | bash'
-                     sh 'curl -sfL https://goreleaser.com/static/run | bash -s -- skip=validate --clean'
+                    //sh 'curl -sL https://git.io/goreleaser release | bash' FaC208uSi123!
+                     sh 'curl -sfL https://goreleaser.com/static/run | bash -s -- release --clean'
                 }
             }
         }
