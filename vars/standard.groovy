@@ -49,7 +49,8 @@ def call(String goToolName = 'go-1.12', String golangCiVersion = 'v1.59.1') {
                 }
                 steps {
                     //sh 'curl -sL https://git.io/goreleaser --snapshot or --skip=validate| bash'
-                    sh 'curl -sL https://git.io/goreleaser release | bash'
+                    //sh 'curl -sL https://git.io/goreleaser release | bash'
+                     sh 'curl -sfL https://goreleaser.com/static/run | bash'
                 }
             }
         }
